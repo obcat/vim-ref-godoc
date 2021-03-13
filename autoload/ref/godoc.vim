@@ -21,7 +21,7 @@ function s:source.get_body(query)
   endif
   throw result.stderr == ''
   \ ? printf('no doc for %s', a:query)
-  \ : split(result.stderr, '\r\?\n')[0]
+  \ : substitute(split(result.stderr, "\n")[0], '^doc: ', '', '')
 endfunction
 
 " Register source (|ref-autoload|) {{{1
