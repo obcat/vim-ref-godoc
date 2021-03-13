@@ -16,8 +16,11 @@ endfunction
 " |ref-source-attr-get_body()|
 function s:source.get_body(query)
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
-  if result.result == 0 && result.stdout != ''
-    return result.stdout
+  if result.result == 0
+    let stdout = trim(result.stdout, "\n")
+    if stdout != ''
+      return stdout
+    endif
   endif
   throw result.stderr == ''
   \ ? printf('no doc for %s', a:query)
