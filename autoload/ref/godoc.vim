@@ -22,9 +22,8 @@ function s:source.get_body(query)
       return stdout
     endif
   endif
-  throw result.stderr == ''
-  \ ? printf('no doc for %s', a:query)
-  \ : substitute(split(result.stderr, "\n")[0], '^doc: ', '', '')
+  let stderr = result.stderr->split("\n")->get(0, '')->substitute('^doc: ', '', '')
+  throw stderr == '' ? printf('no doc for %s', a:query) : stderr
 endfunction
 
 " |ref-source-attr-opened()|
