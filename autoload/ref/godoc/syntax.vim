@@ -11,7 +11,7 @@ function ref#godoc#syntax#call()
   syntax match refGodocPackageName '\%^package \zs\k\+'
   highlight default link refGodocPackageName String
 
-  syntax region refGodocComment start='\s\zs//\s' end='$'
+  syntax region refGodocComment start='\s\zs//' end='$'
   highlight default link refGodocComment Comment
 
   syntax match refGodocSectionHeader '^CONSTANTS$'
