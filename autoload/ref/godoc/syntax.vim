@@ -22,6 +22,7 @@ function ref#godoc#syntax#call()
 
   syntax match refGodocConstantName '^\s*const \zs\k\+'
   syntax match refGodocFunctionName '^\s*func \zs\k\+'
+  syntax match refGodocFunctionName '^\s*func (.\{-1,}) \zs\k\+'
   syntax match refGodocTypeName     '^\s*type \zs\k\+'
   syntax match refGodocVariableName '^\s*var \zs\k\+'
   highlight default link refGodocConstantName Constant
