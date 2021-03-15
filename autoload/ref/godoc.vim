@@ -4,6 +4,7 @@
 
 " Options {{{1
 let g:ref_godoc_cmd = get(g:, 'ref_godoc_cmd', executable('go') ? ['go', 'doc'] : '')
+let g:ref_godoc_smart_cword = get(g:, 'ref_godoc_smart_cword', 1)
 
 " Create source (|ref-sources|) {{{1
 let s:source = {'name': 'godoc'}
@@ -11,6 +12,16 @@ let s:source = {'name': 'godoc'}
 " |ref-source-attr-available()|
 function s:source.available()
   return !empty(g:ref_godoc_cmd)
+endfunction
+
+" |ref-source-attr-get_keyword()|
+function s:source.get_keyword()
+  let cword = g:ref_godoc_smart_cword
+  \ ? ref#godoc#util#get_smart_cword() : expand('<cword>')
+  if cword == ''
+    throw 'no identifier under cursor'
+  endif
+  return cword
 endfunction
 
 " |ref-source-attr-get_body()|
