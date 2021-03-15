@@ -23,3 +23,19 @@ function ref#godoc#util#get_smart_cword()
   endif
   return trim(kwddot, '.', 1)
 endfunction
+
+" Get importpath from the content of current buffer. Example:
+"
+"     ------------------------------------------------------------------------
+"     package json // import "encoding/json"
+"
+"     Package json implements encoding and decoding of JSON as defined in RFC
+"     7159. The mapping between JSON and Go values is described in the
+"     ...
+"     ...
+"     ------------------------------------------------------------------------
+"
+"     => encoding/json
+function ref#godoc#util#get_importpath()
+  return matchstr(getline(1), '^package \k\+ \/\/ import "\zs[/[:keyword:]]\+\ze"$')
+endfunction
