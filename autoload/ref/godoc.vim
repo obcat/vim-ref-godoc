@@ -48,7 +48,6 @@ endfunction
 
 " |ref-source-attr-opened()|
 function s:source.opened(query)
-  call ref#godoc#syntax#call()
 endfunction
 
 " Register source (|ref-autoload|) {{{1
