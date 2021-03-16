@@ -14,13 +14,13 @@ function s:source.available()
 endfunction
 
 " |ref-source-attr-get_body()|
+" NOTE: No need to check if return value is not empty.{{{
+" If it is empty, vim-ref displays error message like
+" "ref: godoc: The body is empty (query={query})" rather than opening empty buffer.}}}
 function s:source.get_body(query)
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
   if result.result == 0
-    let stdout = trim(result.stdout, "\n")
-    if stdout != ''
-      return stdout
-    endif
+    return trim(result.stdout, "\n")
   endif
   let stderr = result.stderr->split("\n")->get(0, '')->substitute('^doc: ', '', '')
   throw stderr == '' ? printf('no doc for %s', a:query) : stderr
