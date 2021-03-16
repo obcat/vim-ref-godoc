@@ -39,3 +39,7 @@ endfunction
 function ref#godoc#util#get_importpath()
   return matchstr(getline(1), '^package \k\+ \/\/ import "\zs[/[:keyword:]]\+\ze"$')
 endfunction
+
+function ref#godoc#util#trim_empty_lines(string)
+  return matchstr(a:string, '^\_s*\zs.\{-}\ze\_s*$')
+endfunction

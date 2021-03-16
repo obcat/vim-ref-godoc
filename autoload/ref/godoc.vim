@@ -2,6 +2,9 @@
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 
+" Constants {{{1
+let s:TABSTOP = repeat(' ', 4)
+
 " Options {{{1
 let g:ref_godoc_cmd = get(g:, 'ref_godoc_cmd', executable('go') ? ['go', 'doc'] : '')
 let g:ref_godoc_smart_cword = get(g:, 'ref_godoc_smart_cword', 1)
@@ -38,10 +41,13 @@ endfunction
 function s:source.get_body(query)
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
   if result.result == 0
-    return matchstr(result.stdout, '^\_s*\zs.\{-}\ze\_s*$')
+    return ref#godoc#util#trim_empty_lines(result.stdout)
   endif
-  let stderr = result.stderr->split("\n")->get(0, '')->substitute('^doc: ', '', '')
-  throw stderr == '' ? printf('no doc for %s', a:query) : stderr
+  let errmsg = result.stderr
+  \ ->ref#godoc#util#trim_empty_lines()
+  \ ->substitute('\t', s:TABSTOP, 'g')
+  \ ->substitute('^doc: \|\nexit status \d\+$', '', 'g')
+  throw errmsg == '' ? printf('no doc for %s', a:query) : errmsg
 endfunction
 
 " |ref-source-attr-opened()|
