@@ -38,7 +38,7 @@ endfunction
 function s:source.get_body(query)
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
   if result.result == 0
-    return trim(result.stdout, "\n")
+    return matchstr(result.stdout, '^\_s*\zs.\{-}\ze\_s*$')
   endif
   let stderr = result.stderr->split("\n")->get(0, '')->substitute('^doc: ', '', '')
   throw stderr == '' ? printf('no doc for %s', a:query) : stderr
