@@ -24,7 +24,7 @@ function ref#godoc#util#get_smart_cword()
   return trim(kwddot, '.', 1)
 endfunction
 
-" Get importpath from the content of current buffer. Example:
+" Get package name from the content of current buffer. Example:
 "
 "     ------------------------------------------------------------------------
 "     package json // import "encoding/json"
@@ -35,9 +35,9 @@ endfunction
 "     ...
 "     ------------------------------------------------------------------------
 "
-"     => encoding/json
-function ref#godoc#util#get_importpath()
-  return matchstr(getline(1), '^package \k\+ \/\/ import "\zs[/[:keyword:]]\+\ze"$')
+"     => json
+function ref#godoc#util#get_package_name()
+  return matchstr(getline(1), '^package \zs\k\+\ze \/\/ import ".*"$')
 endfunction
 
 function ref#godoc#util#trim_empty_lines(string)

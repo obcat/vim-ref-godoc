@@ -8,7 +8,7 @@ let s:TABSTOP = repeat(' ', 4)
 " Options {{{1
 let g:ref_godoc_cmd = get(g:, 'ref_godoc_cmd', executable('go') ? ['go', 'doc'] : '')
 let g:ref_godoc_smart_cword = get(g:, 'ref_godoc_smart_cword', 1)
-let g:ref_godoc_auto_prepend_importpath = get(g:, 'ref_godoc_auto_prepend_importpath', 1)
+let g:ref_godoc_auto_prepend_package_name = get(g:, 'ref_godoc_auto_prepend_package_name', 1)
 
 " Create source (|ref-sources|) {{{1
 let s:source = {'name': 'godoc'}
@@ -25,13 +25,9 @@ function s:source.get_keyword()
   if cword == ''
     throw 'no identifier under cursor'
   endif
-  return cword
-endfunction
-
-" |ref-source-attr-normalize()|
-function s:source.normalize(query)
-  let prefix = g:ref_godoc_auto_prepend_importpath ? ref#godoc#util#get_importpath() : ''
-  return prefix == '' ? a:query : (prefix .. '.' .. a:query)
+  let prefix = g:ref_godoc_auto_prepend_package_name && &filetype ==# 'ref-godoc'
+  \ ? ref#godoc#util#get_package_name() : ''
+  return prefix == '' ? cword : (prefix .. '.' .. cword)
 endfunction
 
 " |ref-source-attr-get_body()|
