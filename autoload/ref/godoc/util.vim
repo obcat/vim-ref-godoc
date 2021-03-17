@@ -33,6 +33,8 @@ function ref#godoc#util#prepend_pkgname(cword)
   return a:cword
 endfunction
 
+" NOTE: "patterns" should be same as the syntax patterns for
+" symbols in syntax/ref-godoc.vim.
 function s:extract_symbol_from_current_line()
   let patterns = [
   \ '^\s*const \zs\k\+',
