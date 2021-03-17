@@ -16,9 +16,10 @@
 function ref#godoc#util#smart_cword()
   let line = getline('.')
   let col = col('.') - 1
-  let [pre, post] = [strpart(line, 0, col), strpart(line, col)]
+  let post = strpart(line, col)
   let [not_kwddot, kwddot] = matchlist(post, '\v^([^.[:keyword:]]*)(\.?\k*)')[1 : 2]
   if not_kwddot == ''
+    let pre = strpart(line, 0, col)
     let kwddot = matchstr(pre, '\v[.[:keyword:]]*$') .. kwddot
   endif
   return trim(kwddot, '.', 1)
