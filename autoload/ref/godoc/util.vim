@@ -13,7 +13,7 @@
 "     | ...nyaooooo  =>  nyaooooo
 "
 " FIXME: dirty :(
-function ref#godoc#util#get_smart_cword()
+function ref#godoc#util#smart_cword()
   let line = getline('.')
   let col = col('.') - 1
   let [pre, post] = [strpart(line, 0, col), strpart(line, col)]
@@ -24,22 +24,29 @@ function ref#godoc#util#get_smart_cword()
   return trim(kwddot, '.', 1)
 endfunction
 
-" Get package name from the content of current buffer. Example:
-"
-"     ------------------------------------------------------------------------
-"     package json // import "encoding/json"
-"
-"     Package json implements encoding and decoding of JSON as defined in RFC
-"     7159. The mapping between JSON and Go values is described in the
-"     ...
-"     ...
-"     ------------------------------------------------------------------------
-"
-"     => json
-function ref#godoc#util#get_package_name()
-  return matchstr(getline(1), '^package \zs\k\+\ze \/\/ import ".*"$')
+function ref#godoc#util#prepend_pkgname(cword)
+  let pkgname = matchstr(getline(1), '^package \zs\k\+\ze')
+  if pkgname != '' && a:cword ==# s:extract_symbol_from_current_line()
+    return pkgname .. '.' .. a:cword
+  endif
+  return a:cword
 endfunction
 
-function ref#godoc#util#trim_empty_lines(string)
-  return matchstr(a:string, '^\_s*\zs.\{-}\ze\_s*$')
+function s:extract_symbol_from_current_line()
+  let patterns = [
+  \ '^\s*const \zs\k\+',
+  \ '^\s*func \zs\k\+',
+  \ '^\s*func (.\{-1,}) \zs\k\+',
+  \ '^\s*type \zs\k\+',
+  \ '^\s*var \zs\k\+',
+  \ ]
+  let line = getline('.')
+  let symbol = ''
+  for pattern in patterns
+    let symbol = matchstr(line, pattern)
+    if symbol != ''
+      break
+    endif
+  endfor
+  return symbol
 endfunction
