@@ -25,6 +25,12 @@ function s:source.get_keyword()
   \ ? ref#godoc#util#add_prefix(cword) : cword
 endfunction
 
+function s:source.normalize(query)
+  return a:query
+  \ ->substitute('\_s\+', ' ', 'g')
+  \ ->substitute('^ \| $', '', 'g')
+endfunction
+
 function s:source.get_body(query)
   let g:ref_godoc_last_query = a:query
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
