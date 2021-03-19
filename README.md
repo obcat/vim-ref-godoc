@@ -4,6 +4,10 @@ A [vim-ref](https://github.com/thinca/vim-ref) source for go doc.
 
 ![gopher](https://golang.org/doc/gopher/ref.png)
 
+## TODO
+- [ ] Completion.
+- [ ] Write English help.
+
 - - -
 
 The Go gopher was designed by [Renee French](http://reneefrench.blogspot.com). 
