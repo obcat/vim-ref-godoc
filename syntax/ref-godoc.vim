@@ -1,4 +1,4 @@
-" vim-ref-godoc - A ref source for Go.
+" vim-ref-godoc - A ref source for go doc.
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 

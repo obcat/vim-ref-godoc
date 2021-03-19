@@ -1,4 +1,4 @@
-" vim-ref-godoc - A ref source for Go.
+" vim-ref-godoc - A ref source for go doc.
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 
@@ -6,7 +6,7 @@
 let s:TABSTOP = repeat(' ', 4)
 
 " Options {{{1
-let g:ref_godoc_cmd = get(g:, 'ref_godoc_cmd', executable('go') ? ['go', 'doc'] : '')
+let g:ref_godoc_cmd = get(g:, 'ref_godoc_cmd', executable('go') ? 'go doc' : '')
 
 " Create source {{{1
 let s:source = {'name': 'godoc'}
@@ -22,7 +22,7 @@ function s:source.get_keyword()
     throw 'no identifier under cursor'
   endif
   return &filetype ==# 'ref-godoc'
-  \ ? ref#godoc#util#prepend_pkgname(cword) : cword
+  \ ? ref#godoc#util#add_prefix(cword) : cword
 endfunction
 
 function s:source.get_body(query)

@@ -1,4 +1,4 @@
-" vim-ref-godoc - A ref source for Go.
+" vim-ref-godoc - A ref source for go doc.
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 
@@ -25,10 +25,12 @@ function ref#godoc#util#smart_cword()
   return trim(kwddot, '.', 1)
 endfunction
 
-function ref#godoc#util#prepend_pkgname(cword)
-  let pkgname = matchstr(getline(1), '^package \zs\k\+\ze')
-  if pkgname != '' && a:cword ==# s:extract_symbol_from_current_line()
-    return pkgname .. '.' .. a:cword
+function ref#godoc#util#add_prefix(cword)
+  if a:cword ==# s:extract_symbol_from_current_line()
+    let pkgname = matchstr(getline(1), '^package \zs\k\+\ze')
+    if pkgname != ''
+      return pkgname .. '.' .. a:cword
+    endif
   endif
   return a:cword
 endfunction

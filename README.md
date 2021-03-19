@@ -1,6 +1,6 @@
 # [WIP] vim-ref-godoc
 
-A [vim-ref](https://github.com/thinca/vim-ref) source for Go.
+A [vim-ref](https://github.com/thinca/vim-ref) source for go doc.
 
 ![gopher](https://golang.org/doc/gopher/ref.png)
 
