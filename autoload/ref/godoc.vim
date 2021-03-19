@@ -26,6 +26,7 @@ function s:source.get_keyword()
 endfunction
 
 function s:source.get_body(query)
+  let g:ref_godoc_last_query = a:query
   let result = ref#system(ref#to_list(g:ref_godoc_cmd, a:query))
   if result.result == 0
     return s:trim_empty_lines(result.stdout)
