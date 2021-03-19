@@ -1,0 +1,122 @@
+*ref-godoc.jax*	go doc 用の ref ソース。
+
+書いた人  : obcat <obcat@icloud.com>
+ライセンス: MIT License
+
+==============================================================================
+目次
+
+	はじめに ................................. |ref-godoc-intro|
+	変数 ..................................... |ref-godoc-variables|
+	コマンド ................................. |ref-godoc-commands|
+	キーマッピング ........................... |ref-godoc-key-mappings|
+
+
+==============================================================================
+はじめに
+
+*ref-godoc* は go doc 用の |ref.vim| のソースです。
+
+要件:	Vim 8.0.1630 かそれ以降のバージョン
+	|ref.vim| 最新バージョン
+	go doc コマンド
+
+
+==============================================================================
+変数							*ref-godoc-variables*
+
+g:ref_godoc_cmd						*g:ref_godoc_cmd*
+	|ref-godoc| が内部で使用するシェルコマンドを文字列か配列で指定します。
+	設定例:
+>
+		let g:ref_godoc_cmd = 'go doc -cmd'		" 文字列
+		let g:ref_godoc_cmd = ['go', 'doc', '-cmd']	" 配列
+<
+	デフォルト値は、go コマンドが実行可能ならば "go doc" です。そうでなけ
+	れば "" (空文字列) です。値が空文字列か空の配列のとき、このソースは利
+	用できなくなります。
+	次のコマンドで go doc コマンドの使い方を確認できるかもしれません:
+>
+		:terminal go help doc
+<
+
+						*g:ref_godoc_last_query*
+g:ref_godoc_last_query
+	|ref-godoc| が最後に使用したクエリ。代入してもかまいませんが、なにも起
+	きません。
+
+
+==============================================================================
+コマンド						*ref-godoc-commands*
+
+							*:Ref-godoc*
+:Ref [{options}] godoc [{query}]
+	{query} を |g:ref_godoc_cmd| で指定されたシェルコマンドに渡して実行
+	し、出力を |ref-viewer| に表示します。たとえば、|g:ref_godoc_cmd| の値
+	が "go doc" である場合、
+>
+		:Ref godoc json
+<
+	はシェルで "go doc json" を実行し、その出力を |ref-viewer| に表示しま
+	す。
+	{options} については、|:Ref| を参照してください。
+
+
+==============================================================================
+キーマッピング					*ref-godoc-key-mappings*
+
+						*<plug>(ref-keyword)-godoc*
+<Plug>(ref-keyword)
+	ファイルタイプが go であるバッファか |ref-godoc| の |ref-viewer| で
+	|<Plug>(ref-keyword)| を使用すると、|ref-godoc| がソースとして選択され
+	ます。このとき |ref-godoc| はカーソル位置やバッファの内容から適切なク
+	エリを決定し、それを |g:ref_godoc_cmd| で指定されたシェルコマンドに渡
+	して実行します。そして得られた出力を |ref-viewer| に表示します。
+
+	クエリの決定方法 ~
+
+	ビジュアルモードで使用した場合、ビジュアル選択されたテキストがクエリと
+	なります。
+
+	ノーマルモードで使用した場合、|ref-godoc| は以下の手順でクエリを決定し
+	ます。
+	1) カーソル下のキーワード {keyword} を取得します。{keyword} は、基本的
+	に "expand('<cword>')" で得られるテキストと同じものになりますが、ドッ
+	ト (".") が現れるところではこのようになります (カーソルを "|" で表して
+	います):
+>
+		バッファの内容		{keyword}
+		 | foo.bar.baz	=>	foo
+		   f|o.bar.baz	=>	foo
+		   foo|bar.baz	=>	foo.bar
+		   foo.b|r.baz	=>	foo.bar
+		   foo.bar|baz	=>	foo.bar.baz
+		   foo.bar.b|z	=>	foo.bar.baz
+<
+
+	2) バッファのファイルタイプが go ならクエリを {keyword} に決定します。
+	バッファが |ref-viewer| なら次の手順に進みます。
+
+	3) 基本的には {keyword} がそのままクエリとなりますが、場合によっては何
+	らかのプレフィックス {prefix} が付け加えられます: {prefix}{keyword}。
+	たとえば、このようなドキュメントが表示されているとき:
+>
+		package json // import "encoding/json"
+
+		Package json implements encoding and decoding of JSON as
+		defined in RFC 7159.
+
+		func Compact(dst *bytes.Buffer, src []byte) error
+		func HTMLEscape(dst *bytes.Buffer, src []byte)
+		...
+<
+	{keyword} が "bytes" や "bytes.Buffer" なら、これらがそのままクエリと
+	なります。一方で、{keyword} が "Compact" や "HTMLEscape" なら、"json."
+	という {prefix} が付け加えられ、それぞれ "json.Compact" と
+	"json.HTMLEscape" がクエリとなります。
+
+	最後に使用したクエリは、|g:ref_godoc_last_query| に格納されています。
+
+
+==============================================================================
+ vim:tw=78:ts=8:noet:ft=help:norl:
