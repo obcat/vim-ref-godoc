@@ -35,7 +35,7 @@ g:ref_godoc_cmd						*g:ref_godoc_cmd*
 	デフォルト値は、go コマンドが実行可能ならば "go doc" です。そうでなけ
 	れば "" (空文字列) です。値が空文字列か空の配列のとき、このソースは利
 	用できなくなります。
-	次のコマンドで go doc コマンドの使い方を確認できるかもしれません:
+	go doc コマンドの使い方は、次のコマンドで確認できるかもしれません:
 >
 		:terminal go help doc
 <
@@ -43,7 +43,7 @@ g:ref_godoc_cmd						*g:ref_godoc_cmd*
 						*g:ref_godoc_last_query*
 g:ref_godoc_last_query
 	|ref-godoc| が最後に使用したクエリ。代入してもかまいませんが、なにも起
-	きません。
+	こりません。
 
 
 ==============================================================================
@@ -111,8 +111,8 @@ g:ref_godoc_last_query
 		...
 <
 	{keyword} が "bytes" や "bytes.Buffer" なら、これらがそのままクエリと
-	なります。一方で、{keyword} が "Compact" や "HTMLEscape" なら、"json."
-	という {prefix} が付け加えられ、それぞれ "json.Compact" と
+	なりますが、{keyword} が "Compact" や "HTMLEscape" なら、"json." とい
+	う {prefix} が付け加えられ、それぞれ "json.Compact" と
 	"json.HTMLEscape" がクエリとなります。
 
 	最後に使用したクエリは、|g:ref_godoc_last_query| に格納されています。
