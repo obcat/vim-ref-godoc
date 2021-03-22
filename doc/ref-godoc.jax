@@ -27,15 +27,15 @@
 
 							*g:ref_godoc_cmd*
 g:ref_godoc_cmd
-	|ref-godoc| が内部で使用するシェルコマンドを文字列か配列で指定します。
-	設定例:
+	|ref-godoc| が内部で使用するシェルコマンドを文字列かリストで指定しま
+	す。設定例:
 >
 		let g:ref_godoc_cmd = 'go doc -cmd'		" 文字列
-		let g:ref_godoc_cmd = ['go', 'doc', '-cmd']	" 配列
+		let g:ref_godoc_cmd = ['go', 'doc', '-cmd']	" リスト
 <
 	デフォルト値は、go コマンドが実行可能ならば "go doc" です。そうでなけ
-	れば "" (空文字列) です。値が空文字列か空の配列のとき、このソースは利
-	用できなくなります。
+	れば "" (空文字列) です。値が空文字列か空のリストのとき、このソースは
+	利用できなくなります。
 	go doc コマンドの使い方は、次のコマンドで確認できるかもしれません:
 >
 		:terminal go help doc
