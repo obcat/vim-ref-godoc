@@ -7,16 +7,13 @@ if exists('b:current_syntax')
 endif
 let b:current_syntax = 'ref-godoc'
 
-syntax match refGodocPackageName '\%^package \zs\k\+'
+syntax match refGodocPackageName '\%^package \zs\S\+'
 highlight default link refGodocPackageName String
 
 syntax region refGodocComment start='\%(\s\|^\)\zs//' end='$'
 highlight default link refGodocComment Comment
 
-syntax match refGodocSectionHeader '^CONSTANTS$'
-syntax match refGodocSectionHeader '^FUNCTIONS$'
-syntax match refGodocSectionHeader '^TYPES$'
-syntax match refGodocSectionHeader '^VARIABLES$'
+syntax match refGodocSectionHeader '^\%(CONSTANTS\|FUNCTIONS\|TYPES\|VARIABLES\)$'
 highlight default link refGodocSectionHeader Statement
 
 syntax match refGodocConstantName '^\s*const \zs\k\+'
