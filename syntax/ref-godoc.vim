@@ -7,13 +7,15 @@ if exists('b:current_syntax')
 endif
 let b:current_syntax = 'ref-godoc'
 
+syntax case match
+
 syntax match refGodocPackageName '\%^package \zs\S\+'
 highlight default link refGodocPackageName String
 
 syntax region refGodocComment start='\%(\s\|^\)\zs//' end='$'
 highlight default link refGodocComment Comment
 
-syntax match refGodocSectionHeader '^\%(CONSTANTS\|FUNCTIONS\|TYPES\|VARIABLES\)$'
+syntax match refGodocSectionHeader '^\u\w*\%( \u\w*\)*$'
 highlight default link refGodocSectionHeader Statement
 
 syntax match refGodocConstantName '^\s*const \zs\k\+'
@@ -26,5 +28,7 @@ highlight default link refGodocFunctionName Constant
 highlight default link refGodocTypeName     Constant
 highlight default link refGodocVariableName Constant
 
-syntax keyword refGodocTodo TODO FIXME XXX BUG
+syntax case ignore
+
+syntax match refGodocTodo '\<\%(TODO\|FIXME\|XXX\|BUG\|NOTE\|DEPRECATED\|CHANGED\|IDEA\|HACK\|REVIEW\|NB\|QUESTION\|COMBAK\|TEMP\|DEBUG\|OPTIMIZE\|WARNING\)\ze\%(([^)]\+)\)\?:'
 highlight default link refGodocTodo Todo
