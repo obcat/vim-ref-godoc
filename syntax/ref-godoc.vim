@@ -18,6 +18,10 @@ highlight default link refGodocComment Comment
 syntax match refGodocSectionHeader '^\u\w*\%( \u\w*\)*$'
 highlight default link refGodocSectionHeader Statement
 
+" Ref: itchyny/vim-highlighturl
+syntax match refGodocURL '\v\c%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)%([&:#*@~%_\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)[&:#*@~%_\-=?!+/0-9a-z]+|:\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\([&:#*@~%_\-=?!+;/.0-9a-z]*\)|\[[&:#*@~%_\-=?!+;/.0-9a-z]*\]|\{%([&:#*@~%_\-=?!+;/.0-9a-z]*|\{[&:#*@~%_\-=?!+;/.0-9a-z]*\})\})+'
+highlight default link refGodocURL Underlined
+
 " Highlight symbol names. Example:"{{{
 "
 "         v-------------v
@@ -43,5 +47,6 @@ highlight default link refGodocSymbolName Constant
 
 syntax case ignore
 
+" Ref: https://qiita.com/taka-kawa/items/673716d77795c937d422
 syntax match refGodocTodo '\<\%(TODO\|FIXME\|XXX\|BUG\|NOTE\|DEPRECATED\|CHANGED\|IDEA\|HACK\|REVIEW\|NB\|QUESTION\|COMBAK\|TEMP\|DEBUG\|OPTIMIZE\|WARNING\)\ze\%(([^)]\+)\)\?:'
 highlight default link refGodocTodo Todo
