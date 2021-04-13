@@ -25,8 +25,8 @@ endfunction
 
 function s:source.normalize(query)
   return a:query
-  \ ->substitute('\_s\+', ' ', 'g')
-  \ ->substitute('^ \| $', '', 'g')
+  \ ->substitute('\v\_s+', ' ', 'g')
+  \ ->substitute('\v^ | $', '', 'g')
 endfunction
 
 function s:source.get_body(query)
@@ -38,7 +38,7 @@ function s:source.get_body(query)
   let errmsg = result.stderr
   \ ->s:trim_empty_lines()
   \ ->substitute('\t', s:TABSTOP, 'g')
-  \ ->substitute('^doc: \|\nexit status \d\+$', '', 'g')
+  \ ->substitute('\v^doc: |\nexit status \d+$', '', 'g')
   throw errmsg == '' ? printf('no doc for %s', a:query) : errmsg
 endfunction
 
@@ -49,7 +49,7 @@ endfunction
 
 " Private functions {{{1
 function s:trim_empty_lines(string)
-  return matchstr(a:string, '^\_s*\zs.\{-}\ze\_s*$')
+  return matchstr(a:string, '\v^\_s*\zs.{-}\ze\_s*$')
 endfunction
 
 " Misc {{{1
