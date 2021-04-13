@@ -112,9 +112,10 @@ g:ref_godoc_last_query
 		...
 <
 	{keyword} が "bytes" や "bytes.Buffer" なら、これらがそのままクエリと
-	なりますが、{keyword} が "Compact" や "HTMLEscape" なら、"json." とい
-	う {prefix} が付け加えられ、それぞれ "encoding/json.Compact" と
-	"encoding/json.HTMLEscape" がクエリとなります。
+	なりますが、{keyword} が "Compact" や "HTMLEscape" なら、
+	"encoding/json." という {prefix} が付け加えられ、それぞれ
+	"encoding/json.Compact" と "encoding/json.HTMLEscape" がクエリとなりま
+	す。
 
 	最後に使用したクエリは、|g:ref_godoc_last_query| に格納されています。
 
