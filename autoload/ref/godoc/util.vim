@@ -26,7 +26,7 @@ function ref#godoc#util#smart_cword()
 endfunction
 
 function ref#godoc#util#add_prefix(cword)
-  if a:cword ==# s:extract_symbol_from_current_line()
+  if a:cword ==# s:symbol_on_cursor_line()
     let pkgname = matchstr(getline(1), '^package \zs\k\+\ze')
     if pkgname != ''
       return pkgname .. '.' .. a:cword
@@ -35,16 +35,11 @@ function ref#godoc#util#add_prefix(cword)
   return a:cword
 endfunction
 
-" NOTE: "patterns" should be same as the syntax patterns for
-" symbols in syntax/ref-godoc.vim.
-function s:extract_symbol_from_current_line()
+function s:symbol_on_cursor_line()
   let patterns = [
-  \ '^\s*const \zs\k\+',
-  \ '^\s*func \zs\k\+',
-  \ '^\s*func (.\{-1,}) \zs\k\+',
-  \ '^\s*type \zs\k\+',
-  \ '^\s*var \zs\k\+',
-  \ ]
+  \ '\v^ *%(const|var|func|type) \zs[^ (]+',
+  \ '\v^ *func \([^()]*%(\([^()]*%(\([^()]*\)[^()]*)*\)[^()]*)*\) \zs[^ (]+',
+  \]
   let line = getline('.')
   let symbol = ''
   for pattern in patterns
