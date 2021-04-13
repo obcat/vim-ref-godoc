@@ -26,6 +26,17 @@ function ref#godoc#util#smart_cword()
 endfunction
 
 function ref#godoc#util#add_prefix(cword)
+  return &filetype ==# 'ref-godoc'
+  \ ? s:add_prefix_ref_godoc(a:cword) : s:add_prefix_go(a:cword)
+endfunction
+
+" In a buffer which filetype is go.
+function s:add_prefix_go(cword)
+  return a:cword
+endfunction
+
+" In a ref-viewer of ref-godoc.
+function s:add_prefix_ref_godoc(cword)
   if a:cword ==# s:symbol_on_cursor_line()
     let importpath = matchstr(getline(1), '\v^package [^ ]+ // import "\zs.*\ze"$')
     if importpath != '' && importpath != '.'

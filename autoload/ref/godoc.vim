@@ -15,14 +15,12 @@ function s:source.available()
   return !empty(g:ref_godoc_cmd)
 endfunction
 
-" TODO: Be more useful.
 function s:source.get_keyword()
   let cword = ref#godoc#util#smart_cword()
   if cword == ''
     throw 'no identifier under cursor'
   endif
-  return &filetype ==# 'ref-godoc'
-  \ ? ref#godoc#util#add_prefix(cword) : cword
+  return ref#godoc#util#add_prefix(cword)
 endfunction
 
 function s:source.normalize(query)
