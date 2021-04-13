@@ -27,9 +27,9 @@ endfunction
 
 function ref#godoc#util#add_prefix(cword)
   if a:cword ==# s:symbol_on_cursor_line()
-    let pkgname = matchstr(getline(1), '^package \zs\k\+\ze')
-    if pkgname != ''
-      return pkgname .. '.' .. a:cword
+    let importpath = matchstr(getline(1), '\v^package [^ ]+ // import "\zs.*\ze"$')
+    if importpath != ''
+      return importpath .. '.' .. a:cword
     endif
   endif
   return a:cword
