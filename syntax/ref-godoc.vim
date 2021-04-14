@@ -20,7 +20,7 @@ highlight default link refGodocComment Comment
 "
 "    1. The previous two lines are blank.
 "    2. The line starts with an uppercase letter.
-"    3. The line does not contain any of these characters: ^;:!?+*/=[]{}_^°&§~%#@<"> .
+"    3. The line does not contain any of these characters: ^;:!?+*/=[]{}_^°&§~%#@<">\ .
 "    4. The line does not contain any single quotation marks (') that are not followed by "s ".
 "    5. The line does not contain any of dots (.) that are not followed by the non-space.
 "    6. The line ends in a letter or digit.
