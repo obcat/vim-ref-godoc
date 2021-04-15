@@ -23,6 +23,10 @@ function s:source.get_keyword()
   return ref#godoc#util#add_prefix(cword)
 endfunction
 
+function s:source.complete(arglead)
+  return ref#godoc#complete#do(a:arglead)
+endfunction
+
 function s:source.normalize(query)
   return a:query
   \ ->substitute('\v\_s+', ' ', 'g')
