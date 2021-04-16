@@ -13,27 +13,41 @@ endfunction
 
 " Get cword smartly. Examples ("|" is cursor):{{{
 "
-"     | foo.bar.baz  =>  foo
-"       f|o.bar.baz  =>  foo
-"       foo|bar.baz  =>  foo.bar
-"       foo.b|r.baz  =>  foo.bar
-"       foo.bar|baz  =>  foo.bar.baz
-"       foo.bar.b|z  =>  foo.bar.baz
-"     | ...nyaooooo  =>  nyaooooo
+"      |foo.bar.baz  =>  "foo"
+"       f|o.bar.baz  =>  "foo"
+"       foo|bar.baz  =>  "foo.bar"
+"       foo.b|r.baz  =>  "foo.bar"
+"       foo.bar|baz  =>  "foo.bar.baz"
+"       foo.bar.b|z  =>  "foo.bar.baz"
+"       foo.bar.baz| =>  ""
 "
-" FIXME: dirty :(
+"      |foo...bar.baz  =>  "foo"
+"       f|o...bar.baz  =>  "foo"
+"       foo|..bar.baz  =>  "bar"
+"       foo..|bar.baz  =>  "bar"
+"       foo...b|r.baz  =>  "bar"
+"       foo...bar|baz  =>  "bar.baz"
+"       foo...bar.b|z  =>  "bar.baz"
+"       foo...bar.baz| =>  ""
+"
 "}}}
 " @return string
 function s:smart_cword()
   let line = getline('.')
-  let col = col('.') - 1
-  let post = strpart(line, col)
-  let [not_kwddot, kwddot] = matchlist(post, '\v^([^.[:keyword:]]*)(\.?\k*)')[1 : 2]
-  if not_kwddot == ''
-    let pre = strpart(line, 0, col)
-    let kwddot = matchstr(pre, '\v[.[:keyword:]]*$') .. kwddot
+  let pos = col('.')
+  let pre = strpart(line, 0, pos) " includes char under cursor
+  let post = strpart(line, pos)
+  let matchpre = matchstr(pre, '\%(\k\+\.\)*\k*$')
+  if matchpre == ''
+    return matchstr(post, '\k\+')
   endif
-  return trim(kwddot, '.', 1)
+  if matchpre =~ '\k$'
+    return matchpre .. matchstr(post, '^\k*')
+  endif
+  " matchpre =~ '\.$'
+  let matchpost = matchstr(post, '^\k\+')
+  return matchpost == ''
+  \ ? matchstr(post, '\k\+') : matchpre .. matchpost
 endfunction
 
 " @param cword: string
