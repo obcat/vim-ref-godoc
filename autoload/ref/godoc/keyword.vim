@@ -2,7 +2,16 @@
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 
-" Get cword smartly. Examples ("|" is cursor):
+" @return string
+function ref#godoc#keyword#get()
+  let cword = s:smart_cword()
+  if cword == ''
+    throw 'no identifier under cursor'
+  endif
+  return s:add_prefix(cword)
+endfunction
+
+" Get cword smartly. Examples ("|" is cursor):{{{
 "
 "     | foo.bar.baz  =>  foo
 "       f|o.bar.baz  =>  foo
@@ -13,7 +22,9 @@
 "     | ...nyaooooo  =>  nyaooooo
 "
 " FIXME: dirty :(
-function ref#godoc#util#smart_cword()
+"}}}
+" @return string
+function s:smart_cword()
   let line = getline('.')
   let col = col('.') - 1
   let post = strpart(line, col)
@@ -25,20 +36,19 @@ function ref#godoc#util#smart_cword()
   return trim(kwddot, '.', 1)
 endfunction
 
-function ref#godoc#util#add_prefix(cword)
-  return &filetype ==# 'ref-godoc'
-  \ ? s:add_prefix_ref_godoc(a:cword) : s:add_prefix_go(a:cword)
+" @param cword: string
+" @return string
+function s:add_prefix(cword)
+  let filetype = &filetype ==# 'ref-godoc'
+  \ ? 'ref_godoc' : 'go'
+  return s:{filetype}_add_prefix(a:cword)
 endfunction
 
-" In a buffer which filetype is go.
-function s:add_prefix_go(cword)
-  return a:cword
-endfunction
-
-" In a ref-viewer of ref-godoc.
-function s:add_prefix_ref_godoc(cword)
+" @param cword: string
+" @return string
+function s:ref_godoc_add_prefix(cword)
   if a:cword ==# s:symbol_on_cursor_line()
-    let importpath = matchstr(getline(1), '\v^package [^ ]+ // import "\zs.*\ze"$')
+    let importpath = s:importpath()
     if importpath != '' && importpath != '.'
       return importpath .. '.' .. a:cword
     endif
@@ -46,6 +56,7 @@ function s:add_prefix_ref_godoc(cword)
   return a:cword
 endfunction
 
+" @return string
 function s:symbol_on_cursor_line()
   let patterns = [
   \ '\v^ *%(const|var|func|type) \zs[^ (]+',
@@ -60,4 +71,15 @@ function s:symbol_on_cursor_line()
     endif
   endfor
   return symbol
+endfunction
+
+" @param cword: string
+" @return string
+function s:go_add_prefix(cword)
+  return a:cword
+endfunction
+
+" @return string
+function s:importpath()
+  return matchstr(getline(1), '\v^package [^ ]+ // import "\zs.*\ze"$')
 endfunction

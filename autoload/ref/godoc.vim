@@ -16,11 +16,7 @@ function s:source.available()
 endfunction
 
 function s:source.get_keyword()
-  let cword = ref#godoc#util#smart_cword()
-  if cword == ''
-    throw 'no identifier under cursor'
-  endif
-  return ref#godoc#util#add_prefix(cword)
+  return ref#godoc#keyword#get()
 endfunction
 
 function s:source.complete(arglead)

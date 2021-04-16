@@ -36,6 +36,7 @@ endfunction
 " See ":help 'smartcase'".
 "
 " @param text: string
+" @return boolean
 function s:should_ignore_case(text)
   let yes = &ignorecase
   if yes && &smartcase && a:text =~ '\u'
