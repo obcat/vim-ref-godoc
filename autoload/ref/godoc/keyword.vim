@@ -61,6 +61,12 @@ endfunction
 " @param cword: string
 " @return string
 function s:ref_godoc_add_prefix(cword)
+  if a:cword ==# s:package_name()
+    let importpath = s:importpath()
+    if importpath != '' && importpath != '.'
+      return importpath
+    endif
+  endif
   if a:cword ==# s:symbol_on_cursor_line()
     let importpath = s:importpath()
     if importpath != '' && importpath != '.'
@@ -68,6 +74,11 @@ function s:ref_godoc_add_prefix(cword)
     endif
   endif
   return a:cword
+endfunction
+
+" @return string
+function s:package_name()
+  return matchstr(getline(1), '\v^package \zs[^ ]+')
 endfunction
 
 " @return string
