@@ -18,7 +18,7 @@
 *ref-godoc* は go doc 用の |ref.vim| のソースです。
 
 要件:	Vim 8.0.1630 かそれ以降のバージョン
-	|ref.vim| 最新バージョン
+	ref.vim (https://github.com/thinca/vim-ref)
 	go doc コマンド
 
 
