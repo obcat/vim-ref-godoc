@@ -5,7 +5,13 @@
 " @param arglead: string
 " @return list<string>
 function ref#godoc#complete#do(arglead)
-  return s:packages()->s:forward_match(a:arglead)
+  let lastarg = a:arglead == '' || a:arglead =~ '\s$'
+  \ ? '' : split(a:arglead)[-1]
+  if lastarg =~ '^-'
+    " TODO: Should return flags which the "go doc" command support?
+    return []
+  endif
+  return s:packages()->s:forward_match(lastarg)
 endfunction
 
 " @return list<string>
