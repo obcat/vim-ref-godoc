@@ -86,13 +86,13 @@ g:ref_godoc_last_query
 	ト (".") が現れるところではこのようになります (カーソルを "|" で表して
 	います):
 >
-		バッファの内容		{keyword}
-		 | foo.bar.baz	=>	foo
-		   f|o.bar.baz	=>	foo
-		   foo|bar.baz	=>	foo.bar
-		   foo.b|r.baz	=>	foo.bar
-		   foo.bar|baz	=>	foo.bar.baz
-		   foo.bar.b|z	=>	foo.bar.baz
+		カーソル行		{keyword}
+		|foo.bar.baz	=>	foo
+		 f|o.bar.baz	=>	foo
+		 foo|bar.baz	=>	foo.bar
+		 foo.b|r.baz	=>	foo.bar
+		 foo.bar|baz	=>	foo.bar.baz
+		 foo.bar.b|z	=>	foo.bar.baz
 <
 
 	2) バッファのファイルタイプが go ならクエリを {keyword} に決定します。

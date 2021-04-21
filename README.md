@@ -6,7 +6,7 @@ A [vim-ref](https://github.com/thinca/vim-ref) source for [go doc](https://golan
 
 ## TODO
 - [x] Completion.
-- [ ] Write English help.
+- [x] Write English help.
 
 ## License
 

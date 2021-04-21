@@ -1,0 +1,124 @@
+*ref-godoc.jax*	A ref source for go doc.
+
+Author : obcat <obcat@icloud.com>
+License: MIT License
+
+==============================================================================
+CONTENTS
+
+	INTRODUCTION .......................... |ref-godoc-intro|
+	VARIABLES ............................. |ref-godoc-variables|
+	COMMANDS .............................. |ref-godoc-commands|
+	KEY MAPPINGS .......................... |ref-godoc-key-mappings|
+
+
+==============================================================================
+INTRODUCTION						*ref-godoc-intro*
+
+*ref-godoc* is a source for |ref.vim| for the go doc command.
+
+Requirements:	Vim 8.0.1630 or later
+		ref.vim (https://github.com/thinca/vim-ref)
+		go doc command
+
+
+==============================================================================
+VARIABLES						*ref-godoc-variables*
+
+							*g:ref_godoc_cmd*
+g:ref_godoc_cmd
+	Specifies a shell command which |ref-godoc| uses internally.  It can
+	be a |String| or a |List|.  Examples:
+>
+		let g:ref_godoc_cmd = 'go doc -cmd'		" String
+		let g:ref_godoc_cmd = ['go', 'doc', '-cmd']	" List
+<
+	The default value is "go doc" if go command is executable, otherwise
+	it is "".  If the value is an empty |String| or an empty |List|, this
+	source will be unavailable.
+	To see the usage of go doc command, try the following command:
+>
+		:terminal go help doc
+<
+
+						*g:ref_godoc_last_query*
+g:ref_godoc_last_query
+	The last query which |ref-godoc| used.  Assignment is permitted, but
+	has no effect.
+
+
+==============================================================================
+COMMANDS						*ref-godoc-commands*
+
+							*:Ref-godoc*
+:Ref [{options}] godoc [{query}]
+	Passes the {query} to the shell command specified by |g:ref_godoc_cmd|
+	to run it, and show the output in |ref-viewer|.  For example, when the
+	value of |g:ref_godoc_cmd| is "go doc",
+>
+		:Ref godoc json
+<
+	runs "go doc json" in shell, and show the output in |ref-viewer|.
+	See |:Ref-options| for {options}.
+
+
+==============================================================================
+KEY MAPPINGS					*ref-godoc-key-mappings*
+
+						*<plug>(ref-keyword)-godoc*
+<Plug>(ref-keyword)
+	If |<Plug>(ref-keyword)| is used in either a buffer which filetype is
+	go or a |ref-viewer| of |ref-godoc|, |ref-godoc| is selected as a
+	source.  Then |ref-godoc| determines a query from the cursor position
+	or the content of the buffer, pass it to the shell command specified
+	by |g:ref_godoc_cmd|, and run the command.  Finally, the output is
+	displayed in a |ref-viewer|.
+
+	How the query is determined ~
+
+	In |Visual-mode|, the visually highlighted text is used for the query.
+
+	In |Normal-mode|, the query is determined by the following steps.
+	1) Get a {keyword} under the cursor.  The {keyword} will be basically
+	same as the text which "expand('<cword>')" returns, but if dots (".")
+	exist around the cursor, the {keyword} will be like this (where "|"
+	denotes the cursor):
+>
+		Cursor line		{keyword}
+		|foo.bar.baz	=>	foo
+		 f|o.bar.baz	=>	foo
+		 foo|bar.baz	=>	foo.bar
+		 foo.b|r.baz	=>	foo.bar
+		 foo.bar|baz	=>	foo.bar.baz
+		 foo.bar.b|z	=>	foo.bar.baz
+<
+
+	2) If the filetype of the buffer is go, the {keyword} will be the
+	query.  Otherwise, i.e. the buffer is a |ref-viewer|, go to the next
+	step.
+
+	3) Basically, the {keyword} itself will be the query, but a {prefix}
+	is added in some cases: {prefix}{keyword}.  For example, when the
+	following document is displayed:
+>
+		package json // import "encoding/json"
+
+		Package json implements encoding and decoding of JSON as
+		defined in RFC 7159.
+
+		func Compact(dst *bytes.Buffer, src []byte) error
+		func HTMLEscape(dst *bytes.Buffer, src []byte)
+		...
+<
+	if the {keyword} is "bytes" or "bytes.Buffer", then the {keyword} will
+	be the query with nothing added, but if the {keyword} is "Compact" or
+	"HTMLEscape", then the prefix of "encoding/json." is added and
+	"encoding/json.Compact" and "encoding/json.HTMLEscape" will be the
+	query respectively.
+
+	The last query which |ref-godoc| used is stored in the
+	|g:ref_godoc_last_query| variable.
+
+
+==============================================================================
+ vim:tw=78:ts=8:noet:ft=help:norl:
