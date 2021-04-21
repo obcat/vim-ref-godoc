@@ -62,13 +62,13 @@ endfunction
 " @return string
 function s:ref_godoc_add_prefix(cword)
   if a:cword ==# s:package_name()
-    let importpath = s:importpath()
+    let importpath = ref#godoc#keyword#importpath()
     if importpath != '' && importpath != '.'
       return importpath
     endif
   endif
   if a:cword ==# s:symbol_on_cursor_line()
-    let importpath = s:importpath()
+    let importpath = ref#godoc#keyword#importpath()
     if importpath != '' && importpath != '.'
       return importpath .. '.' .. a:cword
     endif
@@ -105,6 +105,6 @@ function s:go_add_prefix(cword)
 endfunction
 
 " @return string
-function s:importpath()
+function ref#godoc#keyword#importpath()
   return matchstr(getline(1), '\v^package [^ ]+ // import "\zs.*\ze"$')
 endfunction
