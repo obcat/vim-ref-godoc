@@ -59,7 +59,7 @@ COMMANDS						*ref-godoc-commands*
 		:Ref godoc json
 <
 	runs "go doc json" in shell, and show the output in |ref-viewer|.
-	See |:Ref-options| for {options}.
+	See |:Ref-option| for {options}.
 
 
 ==============================================================================

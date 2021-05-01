@@ -2,16 +2,16 @@
 " Maintainer: obcat <obcat@icloud.com>
 " License:    MIT License
 
-" @param arglead: string
+" @param query: string
 " @return list<string>
-function ref#godoc#complete#do(arglead)
-  let lastarg = a:arglead == '' || a:arglead =~ '\s$'
-  \ ? '' : split(a:arglead)[-1]
-  if lastarg =~ '^-'
+function ref#godoc#complete#do(query)
+  let arglead = a:query == '' || a:query =~ '\s$'
+  \ ? '' : split(a:query)[-1]
+  if arglead =~ '^-'
     " TODO: Should return flags which the "go doc" command support?
     return []
   endif
-  return s:packages()->s:forward_match(lastarg)
+  return s:packages()->s:forward_match(arglead)
 endfunction
 
 " @return list<string>

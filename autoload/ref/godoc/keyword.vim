@@ -53,8 +53,7 @@ endfunction
 " @param cword: string
 " @return string
 function s:add_prefix(cword)
-  let filetype = &filetype ==# 'ref-godoc'
-  \ ? 'ref_godoc' : 'go'
+  let filetype = substitute(&filetype, '-', '_', 'g')
   return s:{filetype}_add_prefix(a:cword)
 endfunction
 

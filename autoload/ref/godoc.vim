@@ -19,7 +19,7 @@ function s:source.complete(arglead)
 endfunction
 
 function s:source.normalize(query)
-  return a:query->substitute('\_s\+', ' ', 'g')->trim()
+  return a:query->trim()->substitute('\_s\+', ' ', 'g')
 endfunction
 
 function s:source.get_body(query)
