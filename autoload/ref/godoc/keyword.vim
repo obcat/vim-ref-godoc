@@ -36,7 +36,7 @@ function s:smart_cword()
   let line = getline('.')
   let pos = col('.')
   let pre = strpart(line, 0, pos) " includes char under cursor
-  let post = strpart(line, pos)
+  let post = strpart(line, pos) " does not include char under cursor
   let matchpre = matchstr(pre, '\%(\k\+\.\)*\k*$')
   if matchpre == ''
     return matchstr(post, '\k\+')
@@ -53,6 +53,7 @@ endfunction
 " @param cword: string
 " @return string
 function s:add_prefix(cword)
+  " ref-godoc => ref_godoc
   let filetype = substitute(&filetype, '-', '_', 'g')
   return s:{filetype}_add_prefix(a:cword)
 endfunction

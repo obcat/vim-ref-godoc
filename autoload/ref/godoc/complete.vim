@@ -5,8 +5,7 @@
 " @param query: string
 " @return list<string>
 function ref#godoc#complete#do(query)
-  let arglead = a:query == '' || a:query =~ '\s$'
-  \ ? '' : split(a:query)[-1]
+  let arglead = split(a:query, '', v:true)[-1]
   if arglead =~ '^-'
     " TODO: Should return flags which the "go doc" command support?
     return []
@@ -36,7 +35,7 @@ function s:forward_match(texts, text)
   let pattern = '^\V'
   \          .. (s:should_ignore_case(a:text) ? '\c' : '\C')
   \          .. escape(a:text, '\')
-  return a:texts->copy()->filter({ _, v -> v =~ pattern })
+  return a:texts->filter({ _, v -> v =~ pattern })
 endfunction
 
 " See ":help 'smartcase'".
