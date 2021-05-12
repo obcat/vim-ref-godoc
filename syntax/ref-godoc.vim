@@ -59,8 +59,10 @@ syntax match refGodocReciever contained nextgroup=refGodocSymbolName skipwhite '
 syntax match refGodocSymbolName contained '\v[^ (]+'
 highlight default link refGodocSymbolName Constant
 
-" Taken from this plugin: itchyny/vim-highlighturl. Thanks!
-syntax match refGodocURL '\v\c%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)%([&:#*@~%_\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)[&:#*@~%_\-=?!+/0-9a-z]+|:\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\([&:#*@~%_\-=?!+;/.0-9a-z]*\)|\[[&:#*@~%_\-=?!+;/.0-9a-z]*\]|\{%([&:#*@~%_\-=?!+;/.0-9a-z]*|\{[&:#*@~%_\-=?!+;/.0-9a-z]*\})\})+'
+" Reference: itchyny/vim-highlighturl. Thanks!
+" Do not highlight a url if it seems to be a string in a code block.
+"                             v------v
+syntax match refGodocURL '\v\c["`]@1<!<%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)%([&:#*@~%_\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)[&:#*@~%_\-=?!+/0-9a-z]+|:\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\([&:#*@~%_\-=?!+;/.0-9a-z]*\)|\[[&:#*@~%_\-=?!+;/.0-9a-z]*\]|\{%([&:#*@~%_\-=?!+;/.0-9a-z]*|\{[&:#*@~%_\-=?!+;/.0-9a-z]*\})\})+'
 highlight default link refGodocURL String
 
 " The keywords are taken from this article: https://qiita.com/taka-kawa/items/673716d77795c937d422.
