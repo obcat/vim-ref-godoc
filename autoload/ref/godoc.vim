@@ -14,8 +14,8 @@ function s:source.get_keyword()
   return ref#godoc#keyword#get()
 endfunction
 
-function s:source.complete(arglead)
-  return ref#godoc#complete#do(a:arglead)
+function s:source.complete(query)
+  return ref#godoc#complete#do(a:query)
 endfunction
 
 function s:source.normalize(query)

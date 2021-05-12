@@ -5,7 +5,7 @@
 " @param query: string
 " @return list<string>
 function ref#godoc#complete#do(query)
-  let arglead = split(a:query, '', v:true)[-1]
+  let arglead = matchstr(a:query, '\S\+$')
   if arglead =~ '^-'
     " TODO: Should return flags which the "go doc" command support?
     return []
