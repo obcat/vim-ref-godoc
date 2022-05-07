@@ -79,7 +79,12 @@ KEY MAPPINGS					*ref-godoc-key-mappings*
 	In |Visual-mode|, the visually highlighted text is used for the query.
 
 	In |Normal-mode|, the query is determined by the following steps.
-	1) Get a {keyword} under the cursor.  The {keyword} will be basically
+	1) If the keyword under the cursor is enclosed in double quotes, it is
+	gotten immediately. This keyword {keyword} may contain a dot (.),
+	hyphen (-), or slash (/) are allowed. It is to resolve URL-style import
+	statements.
+
+	2) Get a {keyword} under the cursor.  The {keyword} will be basically
 	same as the text which "expand('<cword>')" returns, but if dots (".")
 	exist around the cursor, the {keyword} will be like this (where "|"
 	denotes the cursor):
@@ -93,11 +98,11 @@ KEY MAPPINGS					*ref-godoc-key-mappings*
 		 foo.bar.b|z	=>	foo.bar.baz
 <
 
-	2) If the filetype of the buffer is go, the {keyword} will be the
+	3) If the filetype of the buffer is go, the {keyword} will be the
 	query.  Otherwise, i.e. the buffer is a |ref-viewer|, go to the next
 	step.
 
-	3) Basically, the {keyword} itself will be the query, but a {prefix}
+	4) Basically, the {keyword} itself will be the query, but a {prefix}
 	is added in some cases: {prefix}{keyword}.  For example, when the
 	following document is displayed:
 >

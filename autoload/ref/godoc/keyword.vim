@@ -13,6 +13,8 @@ endfunction
 
 " Get cword smartly. Examples ("|" is cursor):{{{
 "
+"      "github.com/mattn/go-colorable" => "github.com/mattn/go-colorable"
+"
 "      |foo.bar.baz  =>  "foo"
 "       f|o.bar.baz  =>  "foo"
 "       foo|bar.baz  =>  "foo.bar"
@@ -37,17 +39,36 @@ function s:smart_cword()
   let pos = col('.')
   let pre = strpart(line, 0, pos) " includes char under cursor
   let post = strpart(line, pos) " does not include char under cursor
+
+  let origisk = &l:iskeyword
+
+  " If the word is enclosed in double quotes, it is returned as is.
+  " This is useful in resolving imported packages.
+  setlocal iskeyword& iskeyword+=/ iskeyword+=- iskeyword+=. iskeyword+=34 "double quote
+  let kwd = expand('<cword>')
+  if kwd =~ '^"\([^"]\+\)"$'
+    let &l:iskeyword = origisk
+    return kwd[1:-2]
+  endif
+
+  setlocal iskeyword&
   let matchpre = matchstr(pre, '\%(\k\+\.\)*\k*$')
   if matchpre == ''
-    return matchstr(post, '\k\+')
+    let ret = matchstr(post, '\k\+')
+    let &l:iskeyword = origisk
+    return ret
   endif
   if matchpre =~ '\k$'
-    return matchpre .. matchstr(post, '^\k*')
+    let ret = matchpre .. matchstr(post, '^\k*')
+    let &l:iskeyword = origisk
+    return ret
   endif
   " matchpre =~ '\.$'
   let matchpost = matchstr(post, '^\k\+')
-  return matchpost == ''
+  let ret = matchpost == ''
   \ ? matchstr(post, '\k\+') : matchpre .. matchpost
+  let &l:iskeyword = origisk
+  return ret
 endfunction
 
 " @param cword: string
